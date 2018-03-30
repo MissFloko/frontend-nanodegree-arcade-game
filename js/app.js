@@ -37,8 +37,7 @@ var Player = function () {
     this.sprite = 'images/char-horn-girl.png';
     
     //value in column
-    this.x = 2;
-    this.y = 5;
+    this.reset();
 };
 
 Player.prototype.update = function() {
@@ -46,8 +45,13 @@ Player.prototype.update = function() {
 };
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite),this.x*101, this.y*83);
+    ctx.drawImage(Resources.get(this.sprite),this.x*101, this.y*75);
 };
+
+Player.prototype.reset = function() {
+    this.x = 2;
+    this.y = 5;
+}
 
 Player.prototype.handleInput = function(direction) {
     switch(direction) {
@@ -88,6 +92,12 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
-// function collision (x,y) {
-//     if
-// }
+function checkCollisions() {
+    allEnemies.forEach(function(enemy){
+        // console.log(`Enemy: ${enemy.x} ${enemy.y} - Player: ${player.x} ${player.y}`);
+        if(Math.floor(enemy.x) === player.x && enemy.y === player.y){
+            console.log('hahahahah collision');
+            player.reset();
+        }
+    })
+}
