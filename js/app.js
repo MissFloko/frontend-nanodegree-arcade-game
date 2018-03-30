@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x,y,speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -7,10 +7,10 @@ var Enemy = function() {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 
-    this.x = 0;
-    this.y = 0;
+    this.x = x;
+    this.y = y;
 
-    this.speed = 1;
+    this.speed = speed;
 };
 
 // Update the enemy's position, required method for game
@@ -19,11 +19,15 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x += (this.speed * dt);
+    if(this.x >= 5) {
+        this.x = 0;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x*101, this.y*70);
 };
 
 // Now write your own player class
@@ -42,17 +46,32 @@ Player.prototype.update = function() {
 };
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite),this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite),this.x*101, this.y*83);
 };
 
 Player.prototype.handleInput = function(direction) {
-
+    switch(direction) {
+        case "up":
+            if(this.y > 0) this.y--;
+            break;
+        case "right":
+            if(this.x < 4) this.x++;
+            break;
+        case "down":
+            if(this.y < 5) this.y++;
+            break;
+        case "left":
+            if(this.x > 0) this.x--;
+            break;
+        default:
+            break;
+    }
 };
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const allEnemies = [];
+const allEnemies = [new Enemy(0,1,1), new Enemy(1,2,1.6), new Enemy(2,3,1.2)];
 const player = new Player();
 
 
@@ -68,3 +87,7 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// function collision (x,y) {
+//     if
+// }
