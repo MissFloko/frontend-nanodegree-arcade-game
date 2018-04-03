@@ -19,10 +19,14 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    if(player.hasWon){
+        return;
+    }
     this.x += (this.speed * dt);
     if(this.x >= 5) {
         this.x = 0;
     }
+    
 };
 
 // Draw the enemy on the screen, required method for game
@@ -38,6 +42,7 @@ var Player = function () {
     
     //value in column
     this.reset();
+    
 };
 
 Player.prototype.update = function() {
@@ -51,9 +56,14 @@ Player.prototype.render = function() {
 Player.prototype.reset = function() {
     this.x = 2;
     this.y = 5;
+    this.hasWon = false;
+    
 }
 
 Player.prototype.handleInput = function(direction) {
+    if(player.hasWon){
+        return;
+    }
     switch(direction) {
         case "up":
             if(this.y > 0) this.y--;
@@ -77,7 +87,7 @@ Player.prototype.handleInput = function(direction) {
 // Place the player object in a variable called player
 const allEnemies = [new Enemy(0,1,1), new Enemy(1,2,1.6), new Enemy(2,3,1.2)];
 const player = new Player();
-
+var tries = 1;
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -93,11 +103,30 @@ document.addEventListener('keyup', function(e) {
 });
 
 function checkCollisions() {
-    allEnemies.forEach(function(enemy){
-        // console.log(`Enemy: ${enemy.x} ${enemy.y} - Player: ${player.x} ${player.y}`);
-        if(Math.floor(enemy.x) === player.x && enemy.y === player.y){
-            console.log('hahahahah collision');
-            player.reset();
-        }
-    })
+    const hasCollided = allEnemies.some(function(enemy){
+        return Math.floor(enemy.x) === player.x && enemy.y === player.y
+    });
+
+    if (hasCollided) {
+        player.reset();
+        incrementScore();
+    }
+}
+
+function incrementScore(){
+    tries++;
+}
+
+function checkWin() {
+    if (player.y === 0 && !player.hasWon) {
+        player.hasWon = true;
+
+        setTimeout(() => resetGame(), 1500);
+    }
+}
+
+function resetGame() {
+    player.reset();
+    playerHasWon = false;
+    tries = 1;
 }

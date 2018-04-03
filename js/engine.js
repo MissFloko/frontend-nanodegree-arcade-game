@@ -80,6 +80,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        checkWin();
     }
 
     /* This is called by the update function and loops through all of the
@@ -139,6 +140,21 @@ var Engine = (function(global) {
         }
 
         renderEntities();
+
+        //render number of tries
+        ctx.strokeStyle = 'black';
+        ctx.fillStyle = "white";
+        ctx.font="30px Arial";
+
+        ctx.fillText(tries, 35 , 100);
+        
+        if (player.hasWon) {
+            ctx.strokeStyle = 'black';
+            ctx.fillStyle = "white";
+            ctx.font="50px Arial";
+            ctx.strokeText('Well done!', canvas.width/3.5, canvas.height/2);
+            ctx.fillText('Well done!', canvas.width/3.5, canvas.height/2);
+        }
     }
 
     /* This function is called by the render function and is called on each game
