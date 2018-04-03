@@ -1,7 +1,7 @@
 # How to help Luni cross the road
 
 ## Story
-Lost in the forest after a wonderful afternoon playing between the trees and smelling the delicious parfum of flowers, Luni finally frind the edge of the woods. Oh no! The bugs are blocking his way to the water.
+Lost in the forest after a wonderful afternoon playing between the trees and smelling the delicious parfum of flowers, Luni finally find the edge of the woods. Oh no! The bugs are blocking his way to the water.
 It is time for you to jump in and help Luni reach the water.
 
 ## How to open the game
