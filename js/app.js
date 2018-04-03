@@ -19,9 +19,12 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    //stop the enemies when the player win the game
     if(player.hasWon){
         return;
     }
+    //update the enemies position
     this.x += (this.speed * dt);
     if(this.x >= 5) {
         this.x = 0;
@@ -34,13 +37,11 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x*101, this.y*70);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+//Player class
 var Player = function () {
     this.sprite = 'images/char-horn-girl.png';
     
-    //value in column
+    //replace the player at his initial position
     this.reset();
     
 };
@@ -49,21 +50,29 @@ Player.prototype.update = function() {
 
 };
 
+
+//draw the player on the screen
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite),this.x*101, this.y*75);
+    ctx.drawImage(Resources.get(this.sprite),this.x*101, this.y*77);
 };
 
+//reset the player position
 Player.prototype.reset = function() {
     this.x = 2;
     this.y = 5;
+
+    //initialize the condition : player won or not
     this.hasWon = false;
     
 }
 
+//handle the player movements
 Player.prototype.handleInput = function(direction) {
+    //stop the player when it has won the game
     if(player.hasWon){
         return;
     }
+    //limit the player movements in the canvas
     switch(direction) {
         case "up":
             if(this.y > 0) this.y--;
@@ -99,9 +108,11 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
+    //accept only entries from the keys listed above
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+//verify if there is a collision between an enemy and the player
 function checkCollisions() {
     const hasCollided = allEnemies.some(function(enemy){
         return Math.floor(enemy.x) === player.x && enemy.y === player.y
@@ -113,10 +124,12 @@ function checkCollisions() {
     }
 }
 
+//increment the number of tries to win the game
 function incrementScore(){
     tries++;
 }
 
+//verify is the player won the game
 function checkWin() {
     if (player.y === 0 && !player.hasWon) {
         player.hasWon = true;
@@ -125,6 +138,7 @@ function checkWin() {
     }
 }
 
+//reset the whole game
 function resetGame() {
     player.reset();
     playerHasWon = false;
