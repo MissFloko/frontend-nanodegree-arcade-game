@@ -91,6 +91,15 @@ Player.prototype.handleInput = function(direction) {
     }
 };
 
+// verify if the player won the game
+Player.prototype.checkWin = function() {
+    if (player.y === 0 && !player.hasWon) {
+        player.hasWon = true;
+
+        setTimeout(() => resetGame(), 1500);
+    }
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -127,15 +136,6 @@ function checkCollisions() {
 //increment the number of tries to win the game
 function incrementScore(){
     tries++;
-}
-
-//verify is the player won the game
-function checkWin() {
-    if (player.y === 0 && !player.hasWon) {
-        player.hasWon = true;
-
-        setTimeout(() => resetGame(), 1500);
-    }
 }
 
 //reset the whole game
