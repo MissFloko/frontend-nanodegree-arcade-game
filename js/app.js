@@ -69,7 +69,7 @@ Player.prototype.reset = function() {
 //handle the player movements
 Player.prototype.handleInput = function(direction) {
     //stop the player when it has won the game
-    if(player.hasWon){
+    if(this.hasWon){
         return;
     }
     //limit the player movements in the canvas
@@ -93,8 +93,8 @@ Player.prototype.handleInput = function(direction) {
 
 // verify if the player won the game
 Player.prototype.checkWin = function() {
-    if (player.y === 0 && !player.hasWon) {
-        player.hasWon = true;
+    if (this.y === 0 && !this.hasWon) {
+        this.hasWon = true;
 
         setTimeout(() => resetGame(), 1500);
     }
